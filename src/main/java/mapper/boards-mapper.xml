@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boards">
+	<insert id="create" parameterType="hashmap">
+		INSERT INTO BOARDS (BOARD_ID, BOARD_PASS, TITLE, CONTENT,WRITER,)
+		VALUES(BOARDS_SEQ.NEXTVAL,#{boardPass},#{title},#{content},#{writer})
+	</insert>
+</mapper>

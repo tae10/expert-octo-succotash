@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boards">
+	<select id="findByWrited" resultType="data.Board" parameterType="hashmap">
+		SELECT * FROM (SELECT ROWNUM rn, t.* FROM (SELECT * FROM BOARDS ORDER BY writed desc)t ) where rn between #{a} and #{b}
+	</select>
+	<select id="findByViews" resultType="data.Board">
+		SELECT * FROM (SELECT ROWNUM rn, t.* FROM (SELECT * FROM BOARDS ORDER BY views desc)t ) where rn between #{a} and #{b}
+	</select>
+	<select id="findByLikes" resultType="data.Board">
+		SELECT * FROM (SELECT ROWNUM rn, t.* FROM (SELECT * FROM BOARDS ORDER BY likes desc)t ) where rn between #{a} and #{b}
+	</select>
+	<select id="findByBoardId" resultType="data.Board">
+		select * from boards where board_id = #{boardId}
+	</select>
+	<insert id="createUser" parameterType="hashmap">
+		insert into boards(board_id, user_id, title, content, writer) 
+		values(boards_SEQ.NEXTVAL, #{userId}, #{title}, #{content}, #{writer})
+	</insert>
+	<insert id="createAnonymous" parameterType="hashmap">
+		insert into boards(board_id, board_pass, title, content, writer) 
+		values(boards_SEQ.NEXTVAL, #{boardPass}, #{title}, #{content}, #{writer})
+	</insert>
+	<select id="countBoards" resultType="int">
+		select count(*) from boards
+	</select>
+	<update id="updateViews">
+		update boards set views = views + 1 where board_id = #{boardId}
+	</update>
+	<delete id="deleteBoard">
+		delete from boards where board_id = #{boardId}
+	</delete>
+	<update id="updateBoard" parameterType="hashmap">
+		update boards set title = #{title}, content = #{content} where board_id = #{boardId}
+	</update>
+</mapper>
